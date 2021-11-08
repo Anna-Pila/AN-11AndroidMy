@@ -4,15 +4,35 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 
 public class Main {
-    static boolean authorization(String login, String password, String confirmPassword) throws WrongLoginException, WrongPasswordException {
+
+    static boolean checkLogin(String login) throws WrongLoginException {
         String pattern = "[a-zA-Z0-9_]{2,20}";
         boolean matches = Pattern.matches(pattern, login);
+        if (login == null || login.equals("")) {
+            throw new WrongLoginException("Пустое значение");
+        }
         if (!matches) {
             throw new WrongLoginException("Неверный логин");
-        } else if (!(password.equals(confirmPassword))) {
+        }
+        return true;
+    }
+
+    static boolean checkPassword(String password, String confirmPassword) throws WrongPasswordException {
+
+        if (password == null || password.equals("") || confirmPassword == null || confirmPassword.equals("")) {
+            throw new WrongPasswordException("Пустое значение");
+        }
+        if (!(password.equals(confirmPassword))) {
             throw new WrongPasswordException("Пароли не совпадают!");
-        } else {
+        }
+        return true;
+    }
+
+    static boolean authorization(String login, String password, String confirmPassword) throws WrongLoginException, WrongPasswordException {
+        if ((checkLogin(login)) && (checkPassword(password, confirmPassword))) {
             return true;
+        } else {
+            return false;
         }
     }
 
@@ -44,8 +64,12 @@ public class Main {
         System.out.println("Повтори пароль, который был сохранен ранее.");
         String confirmPassword = in.nextLine();
         try {
-            System.out.println(authorization(login, password, confirmPassword));
+            authorization(login, password, confirmPassword);
+            if (authorization(login, password, confirmPassword)) {
+                System.out.println("Все верно!");
+            }
         } catch (WrongLoginException | WrongPasswordException e) {
+            System.out.println("Ознакомься с ошибками !");
             e.printStackTrace();
         } //можно сделать вот так
 //        catch (WrongLoginException ex){
@@ -60,5 +84,19 @@ public class Main {
 //            password = confirmPassword;
 //            System.out.println(authorization(login, password, confirmPassword));
 //        }
+        //еще 1 вариант реализации
+//        try {
+//            checkLogin(login);
+//        } catch (WrongLoginException ex) {
+//            ex.printStackTrace();
+//        }
+//        try {
+//            checkPassword(password, confirmPassword);
+//        } catch (WrongPasswordException ex) {
+//            ex.printStackTrace();
+//        } finally {
+//            System.out.println("Error");
+//        }
+        in.close();
     }
 }
