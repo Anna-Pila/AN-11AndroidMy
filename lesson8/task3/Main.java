@@ -7,10 +7,10 @@ public class Main {
     static void test() throws NullPointerException, ArithmeticException, FileNotFoundException, URISyntaxException {
         throw new NullPointerException();
     }
-    public static void main(String[] args) {
+    public static void main(String[] args) throws URISyntaxException {
         try {
             test();
-        } catch (FileNotFoundException | URISyntaxException e) {
+        } catch (FileNotFoundException | NullPointerException e) {
             e.printStackTrace();
         }
     }

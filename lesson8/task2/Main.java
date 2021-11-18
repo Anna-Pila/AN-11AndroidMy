@@ -6,11 +6,11 @@ import java.util.regex.Pattern;
 public class Main {
 
     static boolean checkLogin(String login) throws WrongLoginException {
-        String pattern = "[a-zA-Z0-9_]{2,20}";
-        boolean matches = Pattern.matches(pattern, login);
         if (login == null || login.equals("")) {
             throw new WrongLoginException("Пустое значение");
         }
+        String pattern = "\\w{2,20}";
+        boolean matches = Pattern.matches(pattern, login);
         if (!matches) {
             throw new WrongLoginException("Неверный логин");
         }
@@ -18,7 +18,6 @@ public class Main {
     }
 
     static boolean checkPassword(String password, String confirmPassword) throws WrongPasswordException {
-
         if (password == null || password.equals("") || confirmPassword == null || confirmPassword.equals("")) {
             throw new WrongPasswordException("Пустое значение");
         }
@@ -29,11 +28,7 @@ public class Main {
     }
 
     static boolean authorization(String login, String password, String confirmPassword) throws WrongLoginException, WrongPasswordException {
-        if ((checkLogin(login)) && (checkPassword(password, confirmPassword))) {
-            return true;
-        } else {
-            return false;
-        }
+        return (checkLogin(login)) && (checkPassword(password, confirmPassword));
     }
 
     static class WrongLoginException extends Exception {
