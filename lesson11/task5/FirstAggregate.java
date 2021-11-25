@@ -8,7 +8,6 @@ import java.util.concurrent.Callable;
 
 public class FirstAggregate implements Runnable {
     private int[] mass;
-    int n = 0;
 
     public FirstAggregate(int[] list) {
         this.mass = list;
